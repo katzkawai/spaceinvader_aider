@@ -1,4 +1,5 @@
 import pygame
+from settings import HEIGHT
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, pos, speed):
