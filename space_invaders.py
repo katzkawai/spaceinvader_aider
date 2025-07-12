@@ -10,7 +10,7 @@ PLAYER_SPEED = 5
 ENEMY_ROWS = 5
 ENEMY_COLS = 10
 ENEMY_SPEED = 2
-BULLET_SPEED = 7
+BULLET_SPEED = 10  # Match settings.py value
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -19,18 +19,6 @@ class Enemy(pygame.sprite.Sprite):
         self.image.fill((255, 255, 255))  # White enemy
         self.rect = self.image.get_rect(topleft=(x, y))
 
-class Bullet(pygame.sprite.Sprite):
-    def __init__(self, pos, speed):
-        super().__init__()
-        self.image = pygame.Surface((5, 10))
-        self.image.fill((255, 0, 0))  # Red bullet
-        self.rect = self.image.get_rect(center=pos)
-        self.speed = speed
-
-    def update(self):
-        self.rect.y += self.speed
-        if self.rect.bottom < 0 or self.rect.top > HEIGHT:
-            self.kill()
 
 class Barrier(pygame.sprite.Sprite):
     def __init__(self, x, y):
