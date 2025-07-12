@@ -119,7 +119,8 @@ def main():
                 result_text = "Game Over"
             
             # Bullets hit barriers
-            pygame.sprite.groupcollide(bullets, barriers, True, False)
+            pygame.sprite.groupcollide(player_bullets, barriers, True, False)
+            pygame.sprite.groupcollide(enemy_bullets, barriers, True, False)
             
             # Check win condition
             if not enemies:
