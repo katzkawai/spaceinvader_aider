@@ -37,7 +37,8 @@ def main():
     
     player = Player()
     enemies = pygame.sprite.Group()
-    bullets = pygame.sprite.Group()
+    player_bullets = pygame.sprite.Group()  # Separate group for player bullets
+    enemy_bullets = pygame.sprite.Group()   # Separate group for enemy bullets
     barriers = pygame.sprite.Group()
     all_sprites = pygame.sprite.Group()
     all_sprites.add(player)
@@ -79,7 +80,7 @@ def main():
             # Update player and handle shooting
             player.update(keys)
             if player.bullet:
-                bullets.add(player.bullet)
+                player_bullets.add(player.bullet)
                 all_sprites.add(player.bullet)
                 player.bullet = None
             
@@ -99,20 +100,21 @@ def main():
             if random.random() < 0.01:  # 1% chance per frame
                 shooter = random.choice(list(enemies))
                 bullet = Bullet(shooter.rect.center, BULLET_SPEED)
-                bullets.add(bullet)
+                enemy_bullets.add(bullet)
                 all_sprites.add(bullet)
             
             # Update bullets
-            bullets.update()
+            player_bullets.update()
+            enemy_bullets.update()
             
             # Collision detection
             # Player bullets hit enemies
-            hits = pygame.sprite.groupcollide(bullets, enemies, True, True)
+            hits = pygame.sprite.groupcollide(player_bullets, enemies, True, True)
             for hit in hits:
                 score += 100
             
             # Enemy bullets hit player
-            if pygame.sprite.spritecollide(player, bullets, True):
+            if pygame.sprite.spritecollide(player, enemy_bullets, True):
                 game_over = True
                 result_text = "Game Over"
             
