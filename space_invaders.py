@@ -84,6 +84,7 @@ def main():
         all_sprites.add(barrier)
     
     enemy_direction = 1
+    game_started = False
     game_over = False
     score = 0
     running = True
@@ -94,10 +95,13 @@ def main():
         for event in pygame.event.get():
             if event.type == QUIT:
                 running = False
+            elif event.type == KEYDOWN:
+                if event.key == K_SPACE and not game_started:
+                    game_started = True
         
         keys = pygame.key.get_pressed()
         
-        if not game_over:
+        if game_started and not game_over:
             # Update player and handle shooting
             player.update(keys)
             if player.bullet:
@@ -163,6 +167,10 @@ def main():
             text = font.render(result_text, True, (255, 255, 255))
             text_rect = text.get_rect(center=(WIDTH//2, HEIGHT//2))
             screen.blit(text, text_rect)
+        elif not game_started:
+            start_text = font.render("Press SPACE to Start", True, (255, 255, 255))
+            start_rect = start_text.get_rect(center=(WIDTH//2, HEIGHT//2))
+            screen.blit(start_text, start_rect)
         
         pygame.display.flip()
         clock.tick(60)
