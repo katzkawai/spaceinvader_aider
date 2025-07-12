@@ -1,6 +1,8 @@
 import pygame
 import random
 from pygame.locals import *
+from game.player import Player
+from bullet import Bullet
 
 # Game constants
 WIDTH, HEIGHT = 800, 600
@@ -10,23 +12,6 @@ ENEMY_COLS = 10
 ENEMY_SPEED = 2
 BULLET_SPEED = 7
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.image = pygame.Surface((40, 20))
-        self.image.fill((0, 255, 0))  # Green player ship
-        self.rect = self.image.get_rect(center=(WIDTH//2, HEIGHT-30))
-        self.bullet = None
-
-    def update(self, keys):
-        if keys[K_LEFT] and self.rect.left > 0:
-            self.rect.x -= PLAYER_SPEED
-        if keys[K_RIGHT] and self.rect.right < WIDTH:
-            self.rect.x += PLAYER_SPEED
-
-        if keys[K_SPACE] and not self.bullet:
-            self.bullet = Bullet(self.rect.center, -BULLET_SPEED)
-            
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -66,7 +51,8 @@ def main():
     enemies = pygame.sprite.Group()
     bullets = pygame.sprite.Group()
     barriers = pygame.sprite.Group()
-    all_sprites = pygame.sprite.Group(player)
+    all_sprites = pygame.sprite.Group()
+    all_sprites.add(player)
     
     # Create enemies grid
     for row in range(ENEMY_ROWS):

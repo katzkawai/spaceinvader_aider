@@ -8,6 +8,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.Surface((32, 32))
         self.image.fill((0, 255, 0))
         self.rect = self.image.get_rect(center=(400, 500))
+        self.bullet = None  # Track active bullet
     
     def update(self, keys):
         if keys[pygame.K_LEFT]:
@@ -16,6 +17,5 @@ class Player(pygame.sprite.Sprite):
             self.rect.x += PLAYER_SPEED
         
         # Bullet firing
-        if keys[pygame.K_SPACE]:
-            bullet = Bullet(self.rect.center, -BULLET_SPEED)
-            self.groups()[0].add(bullet)
+        if keys[pygame.K_SPACE] and not self.bullet:
+            self.bullet = Bullet(self.rect.center, -BULLET_SPEED)
